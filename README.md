@@ -1,6 +1,6 @@
 # 🎂 Bake Kart
 
-An advanced, feature-rich e-commerce platform dedicated to ordering a wide variety of delicious cakes. Built entirely with Django, this backend system handles everything from complex product variants (cake sizes, flavors) to secure checkout and user management. 
+An advanced feature-rich e-commerce platform dedicated to ordering a wide variety of delicious cakes. Built entirely with Django, this backend system handles everything from complex product variants (cake sizes, flavors) to secure checkout and user management. 
 
 ## 🚀 Features
 
