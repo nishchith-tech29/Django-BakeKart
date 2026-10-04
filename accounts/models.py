@@ -56,3 +56,6 @@ class Account(AbstractUser):
     def has_module_perms(self, add_label):
         return True
     objects = MyAccountManager()
+    class Meta:
+        verbose_name = "Account"
+        verbose_name_plural = "Accounts"
