@@ -8,6 +8,10 @@ class Category(models.Model):
     class Meta:
         verbose_name = 'Category'
         verbose_name_plural = 'Categories'
+    def get_absolute_url(self):
+        from django.urls import reverse
+        return reverse('products_by_category', args=[self.slug])
 
     def __str__(self):
         return self.category_name
+      

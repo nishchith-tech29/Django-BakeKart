@@ -67,29 +67,12 @@ data-toggle="dropdown">
 </button>
 
 <div class="dropdown-menu">
-<a class="dropdown-item" href="#">
-Machinery / Mechanical Parts / Tools
+{% for category in links %}
+<a class="dropdown-item" href="{{ category.get_absolute_url }}">
+{{ category.category_name }}
 </a>
+{% endfor %}
 
-<a class="dropdown-item" href="#">
-Consumer Electronics / Home Appliances
-</a>
-
-<a class="dropdown-item" href="#">
-Auto / Transportation
-</a>
-
-<a class="dropdown-item" href="#">
-Apparel / Textiles / Timepieces
-</a>
-
-<a class="dropdown-item" href="#">
-Home & Garden / Construction / Lights
-</a>
-
-<a class="dropdown-item" href="#">
-Beauty & Personal Care / Health
-</a>
 
 </div>
 
