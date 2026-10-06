@@ -33,7 +33,7 @@ class="img-fluid rounded">
 
 <header class="section-heading">
 
-    <a href="./store.html"
+    <a href="{% url 'store' %}"
        class="btn btn-outline-primary float-right">
        See all
     </a>
@@ -50,13 +50,13 @@ class="img-fluid rounded">
     <div class="col-md-3">
         <div class="card card-product-grid">
 
-            <a href="./product-detail.html" class="img-wrap">
+            <a href="{{ product.get_url }}" class="img-wrap">
                 <img src="{{ product.images.url }}">
             </a>
 
             <figcaption class="info-wrap">
 
-                <a href="./product-detail.html" class="title">
+                <a href="{{ product.get_url }}" class="title">
                     {{ product.product_name }}
                 </a>
 

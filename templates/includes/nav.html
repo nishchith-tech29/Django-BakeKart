@@ -20,7 +20,7 @@ aria-label="Toggle navigation">
 </li>
 
 <li class="nav-item dropdown">
-<a href="#" class="nav-link">USD</a>
+<a href="#" class="nav-link">INR</a>
 </li>
 </ul>
 
@@ -49,7 +49,7 @@ aria-label="Toggle navigation">
 <div class="row align-items-center">
 
 <div class="col-lg-2 col-md-3 col-6">
-<a href="./" class="brand-wrap">
+<a href="{% url 'home' %}" class="brand-wrap">
 <img class="logo" src="{% static 'images/logo.png' %}">
 </a>
 </div>
@@ -82,7 +82,7 @@ data-toggle="dropdown">
 
 </div>
 
-<a href="./store.html" class="btn btn-outline-primary">
+<a href="{% url 'store' %}" class="btn btn-outline-primary">
 Store
 </a>
 
