@@ -4,12 +4,7 @@
 
 {% block content %}
 <!-- ========================= SECTION PAGETOP ========================= -->
-<section class="section-pagetop bg">
-<div class="container">
-	<h2 class="title-page">Our Store</h2>
-	
-</div> <!-- container //  -->
-</section>
+
 <!-- ========================= SECTION INTRO END// ========================= -->
 
 <!-- ========================= SECTION CONTENT ========================= -->
@@ -142,7 +137,7 @@
 						<span class="price">₹{{ product.price|floatformat:2 }}</span>
 					</div> <!-- price-wrap.// -->
 				</div>
-				<a href="#" class="btn btn-block btn-primary">Add to cart </a>	
+				<a href="{% url 'add_cart' product.id %}" class="btn btn-block btn-primary">Add to cart </a>	
 			</figcaption>
 		</figure>
 	</div> <!-- col.// -->
