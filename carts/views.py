@@ -9,9 +9,11 @@ def cart(request,total=0, quantity=0, cart_items=None):
         for cart_item in cart_items:
             total += (cart_item.product.price * cart_item.quantity)
             quantity += cart_item.quantity
+        tax = (5 * total)/100
+        grand_total = total + tax
     except Cart.DoesNotExist:
         pass # just ignore
-    return render(request, 'store/cart.html', {'total': total, 'quantity': quantity, 'cart_items': cart_items})
+    return render(request, 'store/cart.html', {'total': total, 'quantity': quantity, 'cart_items': cart_items,'tax': tax, 'grand_total': grand_total})
 def _cart_id(request):
     cart = request.session.session_key
     if not cart:
