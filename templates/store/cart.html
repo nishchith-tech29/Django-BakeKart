@@ -5,188 +5,174 @@
 {% block content %}
 
 <section class="section-content padding-y bg">
-    <div class="container">
+<div class="container">
 
-        <!-- ============================ COMPONENT 1 ================================= -->
+<!-- ============================ COMPONENT 1 ================================= -->
 
-        {% if not cart_items %}
+{% if not cart_items %}
 
-        <!-- Empty Cart -->
-        <div class="text-center" style="padding: 20px 0 35px;">
-            <h2 style="font-size: 26px; font-weight: 700; color: #333; margin-bottom: 25px;">
-                Your Shopping Cart is Empty
-            </h2>
+<div class="text-center" style="padding: 20px 0 35px;">
+    <h2 style="font-size: 26px; font-weight: 700; color: #333; margin-bottom: 25px;">
+        Your Shopping Cart is Empty
+    </h2>
 
-            <a href="{% url 'store' %}" class="btn btn-primary">
-                Continue Shopping
-            </a>
-        </div>
+    <a href="{% url 'store' %}" class="btn btn-primary">
+        Continue Shopping
+    </a>
+</div>
 
-        {% else %}
+{% else %}
 
-        <div class="row">
+<div class="row">
 
-            <!-- Cart Items -->
-            <aside class="col-lg-9">
-                <div class="card">
+    <aside class="col-lg-9">
+        <div class="card">
 
-                    <table class="table table-borderless table-shopping-cart">
+            <table class="table table-borderless table-shopping-cart">
 
-                        <thead class="text-muted">
-                            <tr class="small text-uppercase">
-                                <th scope="col">Product</th>
-                                <th scope="col" width="120">Quantity</th>
-                                <th scope="col" width="120">Price</th>
-                                <th scope="col" class="text-right" width="200"></th>
-                            </tr>
-                        </thead>
+                <thead class="text-muted">
+                    <tr class="small text-uppercase">
+                        <th scope="col">Product</th>
+                        <th scope="col" width="120">Quantity</th>
+                        <th scope="col" width="120">Price</th>
+                        <th scope="col" class="text-right" width="200"></th>
+                    </tr>
+                </thead>
 
-                        <tbody>
+                <tbody>
+                {% for item in cart_items %}
 
-                            {% for item in cart_items %}
+                <tr>
+                    <td>
+                        <figure class="itemside align-items-center">
 
-                            <tr>
-                                <!-- Product Details -->
-                                <td>
-                                    <figure class="itemside align-items-center">
+                            <div class="aside">
+                                <img src="{{ item.product.images.url }}" class="img-sm" alt="{{ item.product.product_name }}">
+                            </div>
 
-                                        <div class="aside">
-                                            <img src="{{ item.product.images.url }}"
-                                                 class="img-sm"
-                                                 alt="{{ item.product.name }}">
-                                        </div>
+                            <figcaption class="info">
+                                <a href="{{ item.product.get_url }}" class="title text-dark">
+                                    {{ item.product.product_name }}
+                                </a>
 
-                                        <figcaption class="info">
-                                            <a href="#" class="title text-dark">
-                                                {{ item.product.name }}
-                                            </a>
-                                        </figcaption>
+                                <p class="text-muted small">
+                                    Matrix: 25 Mpx <br>
+                                    Brand: Canon
+                                </p>
+                            </figcaption>
 
-                                    </figure>
-                                </td>
+                        </figure>
+                    </td>
 
-                                <!-- Quantity -->
-                                <td>
-                                    <div class="input-group input-spinner">
+                    <td>
+                        <div class="col">
+                            <div class="input-group input-spinner">
 
-                                        <div class="input-group-prepend">
-                                            <a href="{% url 'remove_cart' item.product.id %}"
-                                               class="btn btn-light"
-                                               aria-label="Decrease quantity">
-                                                <i class="fa fa-minus"></i>
-                                            </a>
-                                        </div>
-
-                                        <input type="text"
-                                               class="form-control"
-                                               value="{{ item.quantity }}"
-                                               readonly>
-
-                                        <div class="input-group-append">
-                                            <a href="{% url 'add_cart' item.product.id %}"
-                                               class="btn btn-light"
-                                               aria-label="Increase quantity">
-                                                <i class="fa fa-plus"></i>
-                                            </a>
-                                        </div>
-
-                                    </div>
-                                </td>
-
-                                <!-- Price -->
-                                <td>
-                                    <div class="price-wrap">
-                                        <var class="price">
-                                            ₹{{ item.sub_total|floatformat:2 }}
-                                        </var>
-
-                                        <small class="text-muted">
-                                            ₹{{ item.product.price|floatformat:2 }} each
-                                        </small>
-                                    </div>
-                                </td>
-
-                                <!-- Remove Product -->
-                                <td class="text-right">
-                                    <a href="{% url 'remove_cart_item' item.product.id %}"
-                                       class="btn btn-danger">
-                                        Remove
+                                <div class="input-group-prepend">
+                                    <a href="{% url 'remove_cart' item.product.id %}"
+                                       class="btn btn-light"
+                                       type="button"
+                                       id="button-plus">
+                                        <i class="fa fa-minus"></i>
                                     </a>
-                                </td>
+                                </div>
 
-                            </tr>
+                                <input type="text"
+                                       class="form-control"
+                                       value="{{ item.quantity }}">
 
-                            {% endfor %}
+                                <div class="input-group-append">
+                                    <a href="{% url 'add_cart' item.product.id %}"
+                                       class="btn btn-light"
+                                       type="button"
+                                       id="button-minus">
+                                        <i class="fa fa-plus"></i>
+                                    </a>
+                                </div>
 
-                        </tbody>
+                            </div>
+                        </div>
+                    </td>
 
-                    </table>
+                    <td>
+                        <div class="price-wrap">
+                            <var class="price">
+                                ₹{{ item.sub_total|floatformat:2 }}
+                            </var>
 
-                </div>
-            </aside>
+                            <small class="text-muted">
+                                ₹{{ item.product.price|floatformat:2 }} each
+                            </small>
+                        </div>
+                    </td>
 
-            <!-- Cart Total -->
-            <aside class="col-lg-3">
-
-                <div class="card">
-                    <div class="card-body">
-
-                        <dl class="dlist-align">
-                            <dt>Total price:</dt>
-                            <dd class="text-right">
-                                ₹{{ total|floatformat:2 }}
-                            </dd>
-                        </dl>
-
-                        <dl class="dlist-align">
-                            <dt>Tax:</dt>
-                            <dd class="text-right">
-                                ₹{{ tax|floatformat:2 }}
-                            </dd>
-                        </dl>
-
-                        <dl class="dlist-align">
-                            <dt>Grand Total:</dt>
-                            <dd class="text-right text-dark">
-                                <strong>
-                                    ₹{{ grand_total|floatformat:2 }}
-                                </strong>
-                            </dd>
-                        </dl>
-
-                        <hr>
-
-                        <!-- Payment Methods -->
-                        <p class="text-center mb-3">
-                            <img src="{% static 'images/misc/payments.png' %}"
-                                 height="26"
-                                 alt="Payment methods">
-                        </p>
-
-                        <!-- Checkout -->
-                        <a href="./place-order.html"
-                           class="btn btn-primary btn-block">
-                            Checkout
+                    <td class="text-right">
+                        <a href="{% url 'remove_cart_item' item.product.id %}"
+                           class="btn btn-danger">
+                            Remove
                         </a>
+                    </td>
+                </tr>
 
-                        <!-- Continue Shopping -->
-                        <a href="{% url 'store' %}"
-                           class="btn btn-light btn-block">
-                            Continue Shopping
-                        </a>
+                {% endfor %}
+                </tbody>
 
-                    </div>
-                </div>
+            </table>
+        </div>
+    </aside>
 
-            </aside>
+    <aside class="col-lg-3">
 
+        <div class="card">
+            <div class="card-body">
+
+                <dl class="dlist-align">
+                    <dt>Total price:</dt>
+                    <dd class="text-right">
+                        ₹{{ total|floatformat:2 }}
+                    </dd>
+                </dl>
+
+                <dl class="dlist-align">
+                    <dt>Tax:</dt>
+                    <dd class="text-right">
+                        ₹{{ tax }}
+                    </dd>
+                </dl>
+
+                <dl class="dlist-align">
+                    <dt>Grand Total:</dt>
+                    <dd class="text-right text-dark b">
+                        <strong>₹{{ grand_total|floatformat:2 }}</strong>
+                    </dd>
+                </dl>
+
+                <hr>
+
+                <p class="text-center mb-3">
+                    <img src="./images/misc/payments.png" height="26" alt="Payment methods">
+                </p>
+
+                <a href="./place-order.html" class="btn btn-primary btn-block">
+                    Checkout
+                </a>
+
+                <a href="{% url 'store' %}" class="btn btn-light btn-block">
+                    Continue Shopping
+                </a>
+
+            </div>
         </div>
 
-        {% endif %}
+    </aside>
 
-        <!-- ============================ COMPONENT 1 END ================================= -->
+</div>
 
-    </div>
+{% endif %}
+
+<!-- ============================ COMPONENT 1 END ================================= -->
+
+</div>
 </section>
 
 {% endblock content %}
