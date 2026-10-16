@@ -88,7 +88,7 @@ Store
 
 <div class="col-lg col-md-6 col-sm-12 col">
 
-<form action="#" class="search">
+<form action="{% url 'search' %}" class="search" method="GET" >
 
 <div class="input-group w-100">
 
@@ -96,7 +96,8 @@ Store
 type="text"
 class="form-control"
 style="width:60%;"
-placeholder="Search">
+placeholder="Search"
+name="keyword">
 
 <div class="input-group-append">
 

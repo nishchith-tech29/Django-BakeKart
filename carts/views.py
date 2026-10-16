@@ -2,6 +2,7 @@ from django.shortcuts import get_object_or_404, render
 from .models import Cart, CartItem
 from store.models import Product
 from django.shortcuts import redirect
+
 def cart(request,total=0, quantity=0, cart_items=None):
     try:
         cart = Cart.objects.get(cart_id=_cart_id(request))
