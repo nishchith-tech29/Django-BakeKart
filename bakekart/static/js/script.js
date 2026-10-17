@@ -58,3 +58,54 @@ $(document).ready(function() {
 }); 
 // jquery end
 
+
+document.addEventListener("DOMContentLoaded", function () {
+    const servingLink = document.getElementById("serving-info-link");
+    const servingPanel = document.getElementById("serving-panel");
+    const servingOverlay = document.getElementById("serving-overlay");
+    const closeButton = document.getElementById("close-serving-panel");
+    const servingInfo = document.getElementById("serving-info");
+
+    const servingSizes = {
+        "0.5": "4 - 5 People",
+        "1": "8 - 10 People",
+        "1.5": "12 - 14 People",
+        "2": "18 - 20 People",
+        "4": "36 - 46 People"
+    };
+
+    document.querySelectorAll('input[name="weight"]').forEach(function (input) {
+        input.addEventListener("change", function () {
+            if (servingInfo) {
+                servingInfo.textContent = servingSizes[this.value];
+            }
+        });
+    });
+
+    if (!servingLink || !servingPanel || !servingOverlay || !closeButton) {
+        return;
+    }
+
+    function openServingPanel(event) {
+        event.preventDefault();
+        servingPanel.classList.add("active");
+        servingOverlay.classList.add("active");
+        document.body.classList.add("serving-panel-open");
+    }
+
+    function closeServingPanel() {
+        servingPanel.classList.remove("active");
+        servingOverlay.classList.remove("active");
+        document.body.classList.remove("serving-panel-open");
+    }
+
+    servingLink.addEventListener("click", openServingPanel);
+    closeButton.addEventListener("click", closeServingPanel);
+    servingOverlay.addEventListener("click", closeServingPanel);
+
+    document.addEventListener("keydown", function (event) {
+        if (event.key === "Escape") {
+            closeServingPanel();
+        }
+    });
+});

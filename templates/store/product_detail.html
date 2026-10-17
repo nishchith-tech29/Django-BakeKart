@@ -1,123 +1,436 @@
+
 {% extends 'base.html' %}
 {% load static %}
+
 {% block content %}
 
 <section class="section-content padding-y bg">
-<div class="container">
+    <div class="container">
 
-<!-- ============================ COMPONENT 1 ================================= -->
-<div class="card">
-	<div class="row no-gutters">
-		<aside class="col-md-6">
-<article class="gallery-wrap"> 
-	<div class="img-big-wrap">
-	   <a href="{{single_product.images.url}}"><img src="{{ single_product.images.url }}"></a>
-	</div> <!-- img-big-wrap.// -->
-	
-</article> <!-- gallery-wrap .end// -->
-		</aside>
-		<main class="col-md-6 border-left">
-<article class="content-body">
+        <!-- Product Details -->
+        <div class="card product-detail-card">
+            <div class="row no-gutters">
 
-<h2 class="title">{{ single_product.product_name }}</h2>
+                <!-- Product Image -->
+                <aside class="col-md-6">
+                    <article class="gallery-wrap">
+                        <div class="img-big-wrap">
+                            <a href="{{ single_product.images.url }}">
+                                <img
+                                    src="{{ single_product.images.url }}"
+                                    alt="{{ single_product.product_name }}"
+                                >
+                            </a>
+                        </div>
+                    </article>
+                </aside>
 
-<div class="mb-3"> 
-	<var class="price h4">₹{{ single_product.price|floatformat:2 }}</var> 
-</div> 
+                <!-- Product Information -->
+                <main class="col-md-6 border-left">
+                    <article class="content-body">
 
-<p>{{ single_product.product_description }}</p>
+                        <!-- Product Name and Eggless Toggle -->
+                        <div class="product-title-row">
+                            <h2 class="title">
+                                {{ single_product.product_name }}
+                            </h2>
+
+                            <label class="eggless-toggle" for="eggless">
+                                <input
+                                    type="checkbox"
+                                    id="eggless"
+                                    name="eggless"
+                                    value="yes"
+                                >
+                                <span class="eggless-switch"></span>
+                                <span class="eggless-label">Eggless</span>
+                            </label>
+                        </div>
+
+                        <!-- Price -->
+                        <div class="product-price">
+                            <var class="price h4">
+                                ₹{{ single_product.price|floatformat:2 }}
+                            </var>
+                        </div>
+
+                        <!-- Description -->
+                        <p>{{ single_product.product_description }}</p>
+
+                        <hr>
+
+                        <!-- Cake: Weight Selection -->
+                        {% if single_product.category.slug == 'cakes' %}
+
+                            <div class="cake-options">
+                                <div class="weight-heading">
+                                    <label class="option-title">
+                                        Select Weight
+                                    </label>
+
+                                    <button
+                                        type="button"
+                                        id="serving-info-link"
+                                        class="serving-info-link"
+                                        aria-haspopup="dialog"
+                                        aria-controls="serving-panel"
+                                    >
+                                        Serving info
+                                    </button>
+                                </div>
+
+                                <div class="weight-options">
+                                    <input
+                                        type="radio"
+                                        name="weight"
+                                        id="weight-05"
+                                        value="0.5"
+                                        checked
+                                    >
+                                    <label for="weight-05">0.5 Kg</label>
+
+                                    <input
+                                        type="radio"
+                                        name="weight"
+                                        id="weight-1"
+                                        value="1"
+                                    >
+                                    <label for="weight-1">1 Kg</label>
+
+                                    <input
+                                        type="radio"
+                                        name="weight"
+                                        id="weight-15"
+                                        value="1.5"
+                                    >
+                                    <label for="weight-15">1.5 Kg</label>
+
+                                    <input
+                                        type="radio"
+                                        name="weight"
+                                        id="weight-2"
+                                        value="2"
+                                    >
+                                    <label for="weight-2">2 Kg</label>
+
+                                    <input
+                                        type="radio"
+                                        name="weight"
+                                        id="weight-4"
+                                        value="4"
+                                    >
+                                    <label for="weight-4">4 Kg</label>
+                                </div>
+
+                                <p
+                                    class="serving-info"
+                                    id="serving-info"
+                                    aria-live="polite"
+                                >
+                                    4 - 5 People
+                                </p>
+                            </div>
+
+                        {% else %}
+
+                            <!-- Non-Cake: Pieces Selection -->
+                            <div class="cake-options">
+                                <div class="weight-heading">
+                                    <label class="option-title">
+                                        Select Pieces
+                                    </label>
+                                </div>
+
+                                <div class="weight-options">
+                                    <input
+                                        type="radio"
+                                        name="pieces"
+                                        id="pieces-1"
+                                        value="1"
+                                        checked
+                                    >
+                                    <label for="pieces-1">1 Piece</label>
+
+                                    <input
+                                        type="radio"
+                                        name="pieces"
+                                        id="pieces-2"
+                                        value="2"
+                                    >
+                                    <label for="pieces-2">2 Pieces</label>
+
+                                    <input
+                                        type="radio"
+                                        name="pieces"
+                                        id="pieces-4"
+                                        value="4"
+                                    >
+                                    <label for="pieces-4">4 Pieces</label>
+
+                                    <input
+                                        type="radio"
+                                        name="pieces"
+                                        id="pieces-6"
+                                        value="6"
+                                    >
+                                    <label for="pieces-6">6 Pieces</label>
+                                </div>
+                            </div>
+
+                        {% endif %}
+
+                        <!-- Care Message -->
+                       
+{% if single_product.category.slug == 'cakes' %}
+
+    <!-- Care Message — Cakes Only -->
+    <div class="option-group care-message-group">
+        <label for="care-message" class="option-title">
+            Care Message
+        </label>
+
+        <input
+            type="text"
+            id="care-message"
+            name="care_message"
+            class="care-message-input"
+            placeholder="Write A Sweet Wish!"
+            maxlength="200"
+        >
+    </div>
+
+{% endif %}
 
 
-<hr>
-	<div class="row">
-		<div class="item-option-select">
-			<h6>Choose Color</h6>
-			<div class="btn-group btn-group-sm btn-group-toggle" data-toggle="buttons">
-			  <label class="btn btn-light">
-			    <input type="radio" name="radio_color"> Silver
-			  </label>
-			  <label class="btn btn-light">
-			    <input type="radio" name="radio_color" > Gray
-			  </label>
-			  <label class="btn btn-light active">
-			    <input type="radio" name="radio_color checked"> Gold
-			  </label>
-			  <label class="btn btn-light">
-			    <input type="radio" name="radio_color"> Black
-			  </label>
-			</div> 
-		</div>
-	</div> <!-- row.// -->
-	<div class="row">
-		<div class="item-option-select">
-			<h6>Select Size</h6>
-			<div class="btn-group btn-group-sm btn-group-toggle" data-toggle="buttons">
-			  <label class="btn btn-light">
-			    <input type="radio" name="radio_color"> S
-			  </label>
-			  <label class="btn btn-light active">
-			    <input type="radio" name="radio_color" checked> M
-			  </label>
-			  <label class="btn btn-light">
-			    <input type="radio" name="radio_color"> L
-			  </label>
-			  <label class="btn btn-light">
-			    <input type="radio" name="radio_color"> XL
-			  </label>
-			</div> 
-		</div>
-	</div> <!-- row.// -->
-	<hr>
-	{% if in_cart %}
-	<a href="#" class="btn  btn-success"> <span class="text">Added to cart</span>   </a>
-	<a href="{% url 'cart' %}" class="btn  btn-outline-primary"> <span class="text">View Cart</span> <i class="fas fa-eye"></i>  </a>
-	{% else %}
-	{% if single_product.stock > 0 %}
-	<a href="{% url 'add_cart' single_product.id %}" class="btn  btn-primary"> <span class="text">Add to cart</span> <i class="fas fa-shopping-cart"></i>  </a>
-	{% else %}
-	<h5 class="text-danger">out of stock</h5>
-	{% endif %}
-	{% endif %}
-</article> <!-- product-info-aside .// -->
-		</main> <!-- col.// -->
-	</div> <!-- row.// -->
-</div> <!-- card.// -->
-<!-- ============================ COMPONENT 1 END .// ================================= -->
+                        <hr>
 
-<br>
+                        <!-- Cart Actions -->
+                        <div class="product-cart-actions">
 
-<div class="row">
-			<div class="col-md-9">
+                            {% if in_cart %}
 
-	<header class="section-heading">
-		<h3>Customer Reviews </h3>  
-		
-	</header>
+                                <a
+                                    href="{% url 'cart' %}"
+                                    class="btn btn-success"
+                                >
+                                    <span class="text">Added to cart</span>
+                                </a>
 
-	<article class="box mb-3">
-		<div class="icontext w-100">
-			<img src="{{ single_product.review_image.url }}" class="img-xs icon rounded-circle">
-			<div class="text">
-				<span class="date text-muted float-md-right">24.04.2020 </span>  
-				<h6 class="mb-1">Mike John </h6>
-				
-			</div>
-		</div> <!-- icontext.// -->
-		<div class="mt-3">
-			<p>
-				Dummy comment Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-				tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-				quis nostrud exercitation ullamco laboris nisi ut aliquip
-			</p>	
-		</div>
-	</article>
+                                <a
+                                    href="{% url 'cart' %}"
+                                    class="btn btn-outline-primary"
+                                >
+                                    <span class="text">View Cart</span>
+                                    <i class="fas fa-eye"></i>
+                                </a>
 
-	
+                            {% else %}
 
-	</div> <!-- col.// -->
-</div> <!-- row.// -->
+                                {% if single_product.stock > 0 %}
 
+                                    <a
+                                        href="{% url 'add_cart' single_product.id %}"
+                                        class="btn btn-primary"
+                                    >
+                                        <span class="text">Add to cart</span>
+                                        <i class="fas fa-shopping-cart"></i>
+                                    </a>
 
-</div> <!-- container .//  -->
+                                {% else %}
+
+                                    <h5 class="text-danger">
+                                        Out of stock
+                                    </h5>
+
+                                {% endif %}
+
+                            {% endif %}
+
+                        </div>
+
+                    </article>
+                </main>
+            </div>
+        </div>
+
+        <!-- Compact Serving Information Popup -->
+        {% if single_product.category.slug == 'cakes' %}
+
+            <div
+                id="serving-overlay"
+                class="serving-overlay"
+                aria-hidden="true"
+            ></div>
+
+            <div
+                id="serving-panel"
+                class="serving-panel"
+                role="dialog"
+                aria-modal="false"
+                aria-labelledby="serving-panel-title"
+                aria-hidden="true"
+                inert
+            >
+                <div class="serving-panel-header">
+                    <h3 id="serving-panel-title">
+                        Serving Information
+                    </h3>
+
+                    <button
+                        type="button"
+                        id="close-serving-panel"
+                        aria-label="Close serving information"
+                    >
+                        &times;
+                    </button>
+                </div>
+
+                <div class="serving-list">
+                    <div class="serving-row">
+                        <strong>0.5 Kg</strong>
+                        <span>4 - 5 People</span>
+                    </div>
+
+                    <div class="serving-row">
+                        <strong>1 Kg</strong>
+                        <span>8 - 10 People</span>
+                    </div>
+
+                    <div class="serving-row">
+                        <strong>1.5 Kg</strong>
+                        <span>12 - 14 People</span>
+                    </div>
+
+                    <div class="serving-row">
+                        <strong>2 Kg</strong>
+                        <span>18 - 20 People</span>
+                    </div>
+
+                    <div class="serving-row">
+                        <strong>4 Kg</strong>
+                        <span>36 - 46 People</span>
+                    </div>
+                </div>
+            </div>
+
+        {% endif %}
+
+        <!-- Customer Reviews -->
+        <div class="row mt-4">
+            <div class="col-md-9">
+
+                <header class="section-heading">
+                    <h3 class="section-title">Customer Reviews</h3>
+                </header>
+
+                <article class="box mb-3">
+                    <div class="icontext w-100">
+
+                        {% if single_product.review_image %}
+                            <img
+                                src="{{ single_product.review_image.url }}"
+                                class="img-xs icon rounded-circle"
+                                alt="Customer"
+                            >
+                        {% endif %}
+
+                        <div class="text">
+                            <span class="date text-muted float-md-right">
+                                24.04.2020
+                            </span>
+
+                            <h6 class="mb-1">Mike John</h6>
+                        </div>
+                    </div>
+
+                    <div class="mt-3">
+                        <p>
+                            Dummy comment Lorem ipsum dolor sit amet,
+                            consectetur adipisicing elit, sed do eiusmod
+                            tempor incididunt ut labore et dolore magna
+                            aliqua. Ut enim ad minim veniam.
+                        </p>
+                    </div>
+                </article>
+
+            </div>
+        </div>
+
+    </div>
 </section>
+
+<!-- Product Detail JavaScript -->
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    // Cake serving information
+    const servingLink = document.getElementById("serving-info-link");
+    const servingPanel = document.getElementById("serving-panel");
+    const servingOverlay = document.getElementById("serving-overlay");
+    const closeServing = document.getElementById("close-serving-panel");
+
+    function openServingPanel() {
+        if (!servingPanel || !servingOverlay) return;
+
+        servingPanel.inert = false;
+        servingPanel.classList.add("active");
+        servingOverlay.classList.add("active");
+        servingPanel.setAttribute("aria-hidden", "false");
+        servingOverlay.setAttribute("aria-hidden", "false");
+
+        if (closeServing) closeServing.focus();
+    }
+
+    function closeServingPanel() {
+        if (!servingPanel || !servingOverlay) return;
+
+        servingPanel.classList.remove("active");
+        servingOverlay.classList.remove("active");
+        servingPanel.setAttribute("aria-hidden", "true");
+        servingOverlay.setAttribute("aria-hidden", "true");
+        servingPanel.inert = true;
+
+        if (servingLink) servingLink.focus();
+    }
+
+    if (servingLink) {
+        servingLink.addEventListener("click", openServingPanel);
+    }
+
+    if (closeServing) {
+        closeServing.addEventListener("click", closeServingPanel);
+    }
+
+    if (servingOverlay) {
+        servingOverlay.addEventListener("click", closeServingPanel);
+    }
+
+    document.addEventListener("keydown", function (event) {
+        if (event.key === "Escape" &&
+            servingPanel &&
+            servingPanel.classList.contains("active")) {
+            closeServingPanel();
+        }
+    });
+
+    // Update serving count when cake weight changes
+    const servingInfo = document.getElementById("serving-info");
+
+    const servingCounts = {
+        "0.5": "4 - 5 People",
+        "1": "8 - 10 People",
+        "1.5": "12 - 14 People",
+        "2": "18 - 20 People",
+        "4": "36 - 46 People"
+    };
+
+    document.querySelectorAll('input[name="weight"]').forEach(function (radio) {
+        radio.addEventListener("change", function () {
+            if (servingInfo) {
+                servingInfo.textContent = servingCounts[this.value] || "";
+            }
+        });
+    });
+});
+</script>
+
 {% endblock content %}
