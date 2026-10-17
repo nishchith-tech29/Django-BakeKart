@@ -21,6 +21,13 @@ def _cart_id(request):
         cart = request.session.create()
     return cart
 def add_cart(request, product_id):
+    is_cake = product.category.slug == 'cakes'
+
+    weight = request.GET.get('weight') if is_cake else None
+    pieces = None if is_cake else request.GET.get('pieces')
+    eggless = request.GET.get('eggless') == 'yes'
+    care_message = request.GET.get('care_message', '').strip() if is_cake else ''
+    
     product = Product.objects.get(id=product_id)
     try:
         cart = Cart.objects.get(cart_id=_cart_id(request))
