@@ -18,6 +18,11 @@ class Product(models.Model):
 
     def __str__(self):
         return self.product_name
+class  VariationManager(models.Manager):
+    def weights(self):
+        return super(VariationManager, self).filter(variation_category='weight', is_active=True)
+    def pieces(self):
+        return super(VariationManager, self).filter(variation_category='pieces', is_active=True)
 variation_category_choice = (
     ('weight', 'weight'),
     ('pieces', 'pieces'),
@@ -32,3 +37,4 @@ class Variation(models.Model):
     created_date = models.DateTimeField(auto_now=True)
     def __unicode__(self):
         return self.product
+
