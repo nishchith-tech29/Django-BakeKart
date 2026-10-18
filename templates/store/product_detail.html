@@ -81,55 +81,29 @@
                                 </div>
 
                                 <div class="weight-options">
-                                    <input
-                                        type="radio"
-                                        name="weight"
-                                        id="weight-05"
-                                        value="0.5"
-                                        checked
-                                    >
-                                    <label for="weight-05">0.5 Kg</label>
-
-                                    <input
-                                        type="radio"
-                                        name="weight"
-                                        id="weight-1"
-                                        value="1"
-                                    >
-                                    <label for="weight-1">1 Kg</label>
-
-                                    <input
-                                        type="radio"
-                                        name="weight"
-                                        id="weight-15"
-                                        value="1.5"
-                                    >
-                                    <label for="weight-15">1.5 Kg</label>
-
-                                    <input
-                                        type="radio"
-                                        name="weight"
-                                        id="weight-2"
-                                        value="2"
-                                    >
-                                    <label for="weight-2">2 Kg</label>
-
-                                    <input
-                                        type="radio"
-                                        name="weight"
-                                        id="weight-4"
-                                        value="4"
-                                    >
-                                    <label for="weight-4">4 Kg</label>
+                                    {% for i in single_product.variation_set.all %}
+                                        <input
+                                            type="radio"
+                                            name="weight"
+                                            id="weight-{{ i.variation_value }}"
+                                            value="{{ i.variation_value }}"
+                                            {% if forloop.first %}checked{% endif %}
+                                        >
+                                        <label for="weight-{{ i.variation_value }}">
+                                            {{ i.variation_value }} Kg
+                                        </label>
+                                    {% endfor %}
                                 </div>
-
-                                <p
+                                {% if single_product.variation_set.first %}
+                                    <p
                                     class="serving-info"
                                     id="serving-info"
                                     aria-live="polite"
                                 >
                                     4 - 5 People
                                 </p>
+                                {% endif %}
+                                
                             </div>
 
                         {% else %}
