@@ -38,16 +38,24 @@
                             </h2>
 
                             <label class="eggless-toggle" for="eggless">
-                                <input
-                                    type="checkbox"
-                                    id="eggless"
-                                    name="eggless"
-                                    value="Yes"
-                                    
-                                >
-                                <span class="eggless-switch"></span>
-                                <span class="eggless-label">Eggless</span>
-                            </label>
+    <input
+        type="hidden"
+        name="eggless"
+        id="eggless-value"
+        value="No"
+    >
+
+    <input
+        type="checkbox"
+        id="eggless"
+        value="Yes"
+        onchange="document.getElementById('eggless-value').value =
+            this.checked ? 'Yes' : 'No';"
+    >
+
+    <span class="eggless-switch"></span>
+    <span class="eggless-label">Eggless</span>
+</label>
                         </div>
 
                         <!-- Price -->
