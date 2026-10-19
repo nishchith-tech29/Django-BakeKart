@@ -1,0 +1,3 @@
+wish message implementation
+prize of variation changing
+
