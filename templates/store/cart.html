@@ -56,8 +56,13 @@
                                 </a>
 
                                 <p class="text-muted small">
-                                    Matrix: 25 Mpx <br>
-                                    Brand: Canon
+                                    {% if item.variations.all %}
+                                        {% for variation in item.variations.all %}
+                                            {{ variation.variation_category|capfirst }}: {{ variation.variation_value|capfirst }}<br>
+                                        {% endfor %}
+                                    
+                                    {% endif %}
+                                   
                                 </p>
                             </figcaption>
 

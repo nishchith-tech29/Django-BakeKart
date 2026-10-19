@@ -36,7 +36,7 @@ def add_cart(request, product_id):
 
     weight = request.GET.get('weight') if is_cake else None
     pieces = None if is_cake else request.GET.get('pieces')
-    eggless = request.GET.get('eggless') == 'yes'
+    eggless = request.GET.get('eggless') == 'eggless'
     care_message = request.GET.get('care_message', '').strip() if is_cake else ''
     
     
@@ -49,17 +49,28 @@ def add_cart(request, product_id):
         cart.save()
     try:
         cart_item = CartItem.objects.get(product=product, cart=cart)
+        if len(product_variation) > 0:
+            cart_item.variations.clear()
+            for variation in product_variation:
+                cart_item.variations.add(variation)
         if cart_item.quantity < cart_item.product.stock:
             cart_item.quantity += 1
         cart_item.save()
     except CartItem.DoesNotExist:
+        
         cart_item = CartItem.objects.create(
             product=product,
             quantity=1,
             cart=cart,
-           
+            
         )
         cart_item.variations.set(product_variation)
+        if len(product_variation) > 0:
+                            cart_item.variations.clear()
+                            for variation in product_variation:
+                                cart_item.variations.add(variation)
+        
+        
         cart_item.save()
     return redirect('cart')
 
