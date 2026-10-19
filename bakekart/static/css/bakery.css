@@ -1421,3 +1421,222 @@ button:focus-visible,
         transform: none;
     }
 }
+
+
+/* ===== BAKEKART CART QUANTITY ALIGNMENT ===== */
+
+.table-shopping-cart {
+    table-layout: auto;
+    width: 100%;
+}
+
+.table-shopping-cart th,
+.table-shopping-cart td {
+    vertical-align: middle !important;
+}
+
+.table-shopping-cart .input-spinner {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-start;
+    flex-wrap: nowrap !important;
+    gap: 0;
+    width: 138px;
+    max-width: 138px;
+    height: 42px;
+    margin: 0 auto;
+}
+
+/* Minus and plus wrappers */
+.table-shopping-cart .input-spinner > .input-group-prepend,
+.table-shopping-cart .input-spinner > .input-group-append {
+    display: flex !important;
+    flex: 0 0 42px;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    margin: 0 !important;
+    padding: 0;
+}
+
+.table-shopping-cart .input-spinner > .input-group-append form {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    margin: 0;
+}
+
+/* Buttons */
+.table-shopping-cart .input-spinner .btn {
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 42px;
+    width: 42px;
+    min-width: 42px;
+    height: 42px;
+    margin: 0 !important;
+    padding: 0;
+    border: 1px solid #eadbd0 !important;
+    border-radius: 12px !important;
+    background: #fffaf5 !important;
+    color: #999 !important;
+    box-shadow: none !important;
+    transform: none !important;
+}
+
+.table-shopping-cart .input-spinner .btn:hover {
+    background: #f8e9dc !important;
+    border-color: #b96f3d !important;
+    color: #5b3025 !important;
+}
+
+.table-shopping-cart .input-spinner .btn i {
+    margin: 0 !important;
+    font-size: 14px;
+    line-height: 1;
+}
+
+/* Quantity input */
+.table-shopping-cart .input-spinner > .form-control {
+    flex: 0 0 42px;
+    width: 42px;
+    min-width: 42px;
+    max-width: 42px;
+    height: 40px;
+    margin: 0 !important;
+    padding: 0;
+    border: 1px solid #e7ded8;
+    border-radius: 0 !important;
+    background: #fff;
+    color: #40251e;
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 40px;
+    text-align: center;
+    box-shadow: none !important;
+}
+
+/* Product and price columns */
+.table-shopping-cart .itemside {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.table-shopping-cart .price-wrap {
+    margin: 0;
+}
+
+/* Responsive */
+@media (max-width: 767.98px) {
+    .table-shopping-cart .input-spinner {
+        width: 102px;
+        max-width: 102px;
+        height: 36px;
+    }
+
+    .table-shopping-cart .input-spinner > .input-group-prepend,
+    .table-shopping-cart .input-spinner > .input-group-append,
+    .table-shopping-cart .input-spinner > .input-group-append form {
+        flex-basis: 34px;
+        width: 34px;
+        height: 36px;
+    }
+
+    .table-shopping-cart .input-spinner .btn {
+        flex-basis: 34px;
+        width: 34px;
+        min-width: 34px;
+        height: 36px;
+        border-radius: 9px !important;
+    }
+
+    .table-shopping-cart .input-spinner > .form-control {
+        flex-basis: 34px;
+        width: 34px;
+        min-width: 34px;
+        max-width: 34px;
+        height: 34px;
+        line-height: 34px;
+        font-size: 13px;
+    }
+}
+
+/* Align quantity stepper directly under QUANTITY heading */
+
+.table-shopping-cart thead th:nth-child(2) {
+    text-align: center;
+}
+
+.table-shopping-cart tbody td:nth-child(2) {
+    text-align: center;
+}
+
+.table-shopping-cart tbody td:nth-child(2) .input-spinner {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin: 0 auto !important;
+}
+
+/* =========================================
+   BAKEKART — CART PAGE FOOTER FIX
+   ========================================= */
+
+.cart-page-content {
+    min-height: 350px;
+    box-sizing: border-box;
+}
+
+/* Empty cart: push footer to the bottom */
+.cart-page-content:has(.text-center > h2) {
+    min-height: calc(100vh - 250px);
+}
+
+/* Keep the empty-cart content nicely spaced */
+.cart-page-content .container {
+    width: 100%;
+}
+/* =========================================================
+   BAKEKART — CART PAGE FOOTER FIX
+   ========================================================= */
+
+html,
+body {
+    min-height: 100%;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+body > section.section-content {
+    flex: 1 0 auto;
+    width: 100%;
+}
+
+body > footer,
+body > .section-footer,
+body > #footer {
+    flex-shrink: 0;
+}
+
+/* Empty cart spacing */
+.section-content:has(.text-center h2) {
+    min-height: 290px;
+}
+
+/* Keep the footer after the cart content */
+body > * {
+    flex-shrink: 0;
+}
+
+body > section.section-content {
+    flex-grow: 1;
+}

@@ -5,179 +5,494 @@
 {% block content %}
 
 <section class="section-content padding-y bg">
-<div class="container">
+    <div class="container">
 
-<!-- ============================ COMPONENT 1 ================================= -->
+        {% if not cart_items %}
 
-{% if not cart_items %}
+        <div class="text-center" style="padding: 20px 0 35px;">
+            <h2 style="font-size: 26px; font-weight: 700; color: #40251e; margin-bottom: 25px;">
+                Your Shopping Cart is Empty
+            </h2>
 
-<div class="text-center" style="padding: 20px 0 35px;">
-    <h2 style="font-size: 26px; font-weight: 700; color: #333; margin-bottom: 25px;">
-        Your Shopping Cart is Empty
-    </h2>
+            <a href="{% url 'store' %}" class="btn btn-primary">
+                Continue Shopping
+            </a>
+        </div>
 
-    <a href="{% url 'store' %}" class="btn btn-primary">
-        Continue Shopping
-    </a>
-</div>
+        {% else %}
 
-{% else %}
+        <div class="row">
 
-<div class="row">
+            <aside class="col-lg-9">
+                <div class="card">
+                    <table class="table table-borderless table-shopping-cart">
 
-    <aside class="col-lg-9">
-        <div class="card">
+                        <thead class="text-muted">
+                            <tr class="small text-uppercase">
+                                <th scope="col">Product</th>
+                                <th scope="col" width="180">Quantity</th>
+                                <th scope="col" width="150">Price</th>
+                                <th scope="col" class="text-right" width="140"></th>
+                            </tr>
+                        </thead>
 
-            <table class="table table-borderless table-shopping-cart">
+                        <tbody>
+                            {% for item in cart_items %}
 
-                <thead class="text-muted">
-                    <tr class="small text-uppercase">
-                        <th scope="col">Product</th>
-                        <th scope="col" width="120">Quantity</th>
-                        <th scope="col" width="120">Price</th>
-                        <th scope="col" class="text-right" width="200"></th>
-                    </tr>
-                </thead>
+                            <tr>
+                                <td>
+                                    <figure class="itemside align-items-center">
+                                        <div class="aside">
+                                            <img
+                                                src="{{ item.product.images.url }}"
+                                                class="img-sm"
+                                                alt="{{ item.product.product_name }}"
+                                            >
+                                        </div>
 
-                <tbody>
-                {% for item in cart_items %}
+                                        <figcaption class="info">
+                                            <a href="{{ item.product.get_url }}" class="title text-dark">
+                                                {{ item.product.product_name }}
+                                            </a>
 
-                <tr>
-                    <td>
-                        <figure class="itemside align-items-center">
+                                            <p class="text-muted small mb-0">
+                                                {% for variation in item.variations.all %}
+                                                    {{ variation.variation_category|capfirst }}:
+                                                    {{ variation.variation_value|capfirst }}<br>
+                                                {% endfor %}
+                                            </p>
+                                        </figcaption>
+                                    </figure>
+                                </td>
 
-                            <div class="aside">
-                                <img src="{{ item.product.images.url }}" class="img-sm" alt="{{ item.product.product_name }}">
-                            </div>
+                                <td>
+                                    <div class="input-group input-spinner">
 
-                            <figcaption class="info">
-                                <a href="{{ item.product.get_url }}" class="title text-dark">
-                                    {{ item.product.product_name }}
-                                </a>
+                                        <!-- Decrease quantity -->
+                                        <div class="input-group-prepend">
+                                            <a
+                                                href="{% url 'remove_cart' item.product.id item.id %}"
+                                                class="btn btn-light"
+                                                aria-label="Decrease quantity"
+                                                title="Decrease quantity"
+                                            >
+                                                <i class="fa fa-minus"></i>
+                                            </a>
+                                        </div>
 
-                                <p class="text-muted small">
-                                    {% if item.variations.all %}
-                                        {% for variation in item.variations.all %}
-                                            {{ variation.variation_category|capfirst }}: {{ variation.variation_value|capfirst }}<br>
-                                        {% endfor %}
-                                    
-                                    {% endif %}
-                                   
-                                </p>
-                            </figcaption>
+                                        <!-- Current quantity -->
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                            value="{{ item.quantity }}"
+                                            readonly
+                                            aria-label="Current quantity"
+                                        >
 
-                        </figure>
-                    </td>
+                                        <!-- Increase quantity -->
+                                        <div class="input-group-append">
+                                            <form
+                                                method="POST"
+                                                action="{% url 'add_cart' item.product.id %}"
+                                            >
+                                                {% csrf_token %}
 
-                    <td>
-                        <div class="col">
-                            <div class="input-group input-spinner">
+                                                {% for variation in item.variations.all %}
+                                                    <input
+                                                        type="hidden"
+                                                        name="{{ variation.variation_category }}"
+                                                        value="{{ variation.variation_value }}"
+                                                    >
+                                                {% endfor %}
 
-                                <div class="input-group-prepend">
-                                    <a href="{% url 'remove_cart' item.product.id %}"
-                                       class="btn btn-light"
-                                       type="button"
-                                       id="button-plus">
-                                        <i class="fa fa-minus"></i>
-                                    </a>
-                                </div>
+                                                <button
+                                                    type="submit"
+                                                    class="btn btn-light"
+                                                    aria-label="Increase quantity"
+                                                    title="Increase quantity"
+                                                >
+                                                    <i class="fa fa-plus"></i>
+                                                </button>
+                                            </form>
+                                        </div>
 
-                                <input type="text"
-                                       class="form-control"
-                                       value="{{ item.quantity }}">
+                                    </div>
+                                </td>
 
-                                <div class="input-group-append">
-                                    <a href="{% url 'add_cart' item.product.id %}"
-                                       class="btn btn-light"
-                                       type="button"
-                                       id="button-minus">
-                                        <i class="fa fa-plus"></i>
-                                    </a>
-                                </div>
+                                <td>
+                                    <div class="price-wrap">
+                                        <var class="price">
+                                            ₹{{ item.sub_total|floatformat:2 }}
+                                        </var>
 
-                            </div>
-                        </div>
-                    </td>
+                                        <small class="text-muted d-block">
+                                            ₹{{ item.product.price|floatformat:2 }} each
+                                        </small>
+                                    </div>
+                                </td>
 
-                    <td>
-                        <div class="price-wrap">
-                            <var class="price">
-                                ₹{{ item.sub_total|floatformat:2 }}
-                            </var>
+                                
+                              
+                                    <td class="text-right">
+                                       
+                                        <a href="{% url 'remove_cart_item' item.product.id item.id %}"
+                                        class="btn btn-danger"
+                                        onclick="return confirmRemove(event, this, '{{ item.product.product_name|escapejs }}');">
+                                            Remove
+                                        </a>
 
-                            <small class="text-muted">
-                                ₹{{ item.product.price|floatformat:2 }} each
-                            </small>
-                        </div>
-                    </td>
+                                    </td>
 
-                    <td class="text-right">
-                        <a href="{% url 'remove_cart_item' item.product.id %}"
-                           class="btn btn-danger">
-                            Remove
+
+                            </tr>
+
+                            {% endfor %}
+                        </tbody>
+
+                    </table>
+                </div>
+            </aside>
+
+            <!-- Order summary -->
+            <aside class="col-lg-3">
+                <div class="card">
+                    <div class="card-body">
+
+                        <dl class="dlist-align">
+                            <dt>Total price:</dt>
+                            <dd class="text-right">
+                                ₹{{ total|floatformat:2 }}
+                            </dd>
+                        </dl>
+
+                        <dl class="dlist-align">
+                            <dt>Tax:</dt>
+                            <dd class="text-right">
+                                ₹{{ tax|floatformat:2 }}
+                            </dd>
+                        </dl>
+
+                        <dl class="dlist-align">
+                            <dt>Grand Total:</dt>
+                            <dd class="text-right text-dark">
+                                <strong>₹{{ grand_total|floatformat:2 }}</strong>
+                            </dd>
+                        </dl>
+
+                        <hr>
+
+                        <a href="{% url 'store' %}" class="btn btn-primary btn-block">
+                            Continue Shopping
                         </a>
-                    </td>
-                </tr>
 
-                {% endfor %}
-                </tbody>
+                    </div>
+                </div>
+            </aside>
 
-            </table>
-        </div>
-    </aside>
-
-    <aside class="col-lg-3">
-
-        <div class="card">
-            <div class="card-body">
-
-                <dl class="dlist-align">
-                    <dt>Total price:</dt>
-                    <dd class="text-right">
-                        ₹{{ total|floatformat:2 }}
-                    </dd>
-                </dl>
-
-                <dl class="dlist-align">
-                    <dt>Tax:</dt>
-                    <dd class="text-right">
-                        ₹{{ tax }}
-                    </dd>
-                </dl>
-
-                <dl class="dlist-align">
-                    <dt>Grand Total:</dt>
-                    <dd class="text-right text-dark b">
-                        <strong>₹{{ grand_total|floatformat:2 }}</strong>
-                    </dd>
-                </dl>
-
-                <hr>
-
-                <p class="text-center mb-3">
-                    <img src="./images/misc/payments.png" height="26" alt="Payment methods">
-                </p>
-
-                <a href="./place-order.html" class="btn btn-primary btn-block">
-                    Checkout
-                </a>
-
-                <a href="{% url 'store' %}" class="btn btn-light btn-block">
-                    Continue Shopping
-                </a>
-
-            </div>
         </div>
 
-    </aside>
+        {% endif %}
 
-</div>
-
-{% endif %}
-
-<!-- ============================ COMPONENT 1 END ================================= -->
-
-</div>
+    </div>
 </section>
+
+
+<!-- BakeKart Remove Confirmation Modal -->
+
+<!-- BakeKart Remove Confirmation Modal -->
+<div id="removeConfirmModal" class="bk-modal-overlay" aria-hidden="true">
+    <div class="bk-confirm-modal"
+         role="dialog"
+         aria-modal="true"
+         aria-labelledby="removeModalTitle"
+         aria-describedby="removeModalMessage">
+
+        <div class="bk-modal-icon">
+            <i class="fa fa-trash-o" aria-hidden="true"></i>
+        </div>
+
+        <h3 id="removeModalTitle">Remove this treat?</h3>
+
+        <p id="removeModalMessage">
+            Are you sure you want to remove
+            <strong id="removeProductName">this item</strong>
+            from your cart?
+        </p>
+
+        <div class="bk-modal-actions">
+            <button type="button" id="cancelRemove" class="bk-btn-cancel">
+                Keep Item
+            </button>
+
+            <a href="#" id="confirmRemove" class="bk-btn-remove">
+                Yes, Remove
+            </a>
+        </div>
+    </div>
+</div>
+
+<style>
+/* BakeKart Remove Confirmation Modal */
+
+.bk-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(48, 29, 22, 0.48);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    z-index: 99999;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.22s ease, visibility 0.22s ease;
+}
+
+.bk-modal-overlay.bk-modal-active {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+.bk-confirm-modal {
+    width: 100%;
+    max-width: 480px;
+    box-sizing: border-box;
+    background: #fffaf3;
+    border: 1px solid #ead8ca;
+    border-radius: 24px;
+    padding: 34px 32px 30px;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(64, 37, 30, 0.20);
+    opacity: 0;
+    transform: translateY(12px) scale(0.98);
+    transition: opacity 0.22s ease, transform 0.22s ease;
+}
+
+.bk-modal-active .bk-confirm-modal {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+/* Trash icon without circle */
+.bk-modal-icon {
+    width: auto;
+    height: auto;
+    margin: 0 auto 20px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    color: #a94335;
+    font-size: 29px;
+    line-height: 1;
+}
+
+.bk-modal-icon i {
+    font-size: inherit;
+}
+
+.bk-confirm-modal h3 {
+    color: #40251e;
+    font-size: 26px;
+    font-weight: 750;
+    line-height: 1.3;
+    margin: 0 0 15px;
+    letter-spacing: -0.4px;
+}
+
+.bk-confirm-modal p {
+    color: #80685b;
+    font-size: 15px;
+    line-height: 1.8;
+    margin: 0 0 28px;
+    overflow-wrap: anywhere;
+}
+
+.bk-confirm-modal p strong {
+    color: #5b3025;
+    font-weight: 700;
+}
+
+.bk-modal-actions {
+    display: flex;
+    align-items: stretch;
+    gap: 14px;
+}
+
+.bk-btn-cancel,
+.bk-btn-remove {
+    flex: 1;
+    min-width: 0;
+    min-height: 54px;
+    box-sizing: border-box;
+    padding: 13px 12px;
+    border-radius: 14px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.4;
+    text-align: center;
+    cursor: pointer;
+    transition: background 0.2s ease,
+                border-color 0.2s ease,
+                color 0.2s ease,
+                transform 0.2s ease;
+}
+
+.bk-btn-cancel {
+    background: #fff;
+    border: 1px solid #e7d3c4;
+    color: #5b3025;
+}
+
+.bk-btn-cancel:hover {
+    background: #f5e8dc;
+    border-color: #d8b9a3;
+    color: #40251e;
+}
+
+.bk-btn-remove {
+    background: #a94335;
+    border: 1px solid #a94335;
+    color: #fff !important;
+    text-decoration: none !important;
+}
+
+.bk-btn-remove:hover {
+    background: #8e352a;
+    border-color: #8e352a;
+    color: #fff !important;
+    text-decoration: none !important;
+    transform: translateY(-1px);
+}
+
+.bk-btn-cancel:focus-visible,
+.bk-btn-remove:focus-visible {
+    outline: 3px solid #d6a078;
+    outline-offset: 3px;
+}
+
+.bk-btn-cancel:active,
+.bk-btn-remove:active {
+    transform: scale(0.98);
+}
+
+@media (max-width: 480px) {
+    .bk-confirm-modal {
+        max-width: 400px;
+        padding: 28px 20px 22px;
+        border-radius: 20px;
+    }
+
+    .bk-confirm-modal h3 {
+        font-size: 23px;
+    }
+
+    .bk-confirm-modal p {
+        font-size: 14px;
+        margin-bottom: 23px;
+    }
+
+    .bk-modal-actions {
+        gap: 10px;
+    }
+
+    .bk-btn-cancel,
+    .bk-btn-remove {
+        min-height: 50px;
+        padding: 11px 8px;
+        font-size: 13px;
+        border-radius: 12px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .bk-modal-overlay,
+    .bk-confirm-modal,
+    .bk-btn-cancel,
+    .bk-btn-remove {
+        transition: none;
+    }
+}
+</style>
+
+<script>
+(function () {
+    function initializeRemoveModal() {
+        const modal = document.getElementById("removeConfirmModal");
+        const productName = document.getElementById("removeProductName");
+        const confirmButton = document.getElementById("confirmRemove");
+        const cancelButton = document.getElementById("cancelRemove");
+
+        if (!modal || !productName || !confirmButton || !cancelButton) {
+            return;
+        }
+
+        let previousFocus = null;
+
+        window.confirmRemove = function (event, link, name) {
+            event.preventDefault();
+
+            previousFocus = link;
+            confirmButton.href = link.href;
+            productName.textContent = name || "this item";
+
+            modal.classList.add("bk-modal-active");
+            modal.setAttribute("aria-hidden", "false");
+            document.body.style.overflow = "hidden";
+
+            cancelButton.focus();
+
+            return false;
+        };
+
+        function closeModal() {
+            modal.classList.remove("bk-modal-active");
+            modal.setAttribute("aria-hidden", "true");
+            document.body.style.overflow = "";
+            confirmButton.href = "#";
+
+            if (previousFocus) {
+                previousFocus.focus();
+            }
+        }
+
+        cancelButton.addEventListener("click", closeModal);
+
+        modal.addEventListener("click", function (event) {
+            if (event.target === modal) {
+                closeModal();
+            }
+        });
+
+        document.addEventListener("keydown", function (event) {
+            if (
+                event.key === "Escape" &&
+                modal.classList.contains("bk-modal-active")
+            ) {
+                closeModal();
+            }
+        });
+    }
+
+    if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", initializeRemoveModal);
+    } else {
+        initializeRemoveModal();
+    }
+})();
+</script>
+
 
 {% endblock content %}
