@@ -12,18 +12,23 @@
 		<header class="mb-4"><h4 class="card-title">Sign up</h4></header>
 
 		
+
 <form action="{% url 'register' %}" method="POST">
     {% csrf_token %}
+
+    {{ form.non_field_errors }}
 
     <div class="form-row">
         <div class="col form-group">
             <label>First name</label>
             {{ form.first_name }}
+            
         </div>
 
         <div class="col form-group">
             <label>Last name</label>
             {{ form.last_name }}
+            
         </div>
     </div>
 
@@ -31,6 +36,7 @@
         <div class="form-group col-md-6">
             <label>Email</label>
             {{ form.email }}
+            {{ form.email.errors }}
             <small class="form-text text-muted">
                 We'll never share your email with anyone else.
             </small>
@@ -39,6 +45,7 @@
         <div class="form-group col-md-6">
             <label>Phone Number</label>
             {{ form.phone_number }}
+            {{ form.phone_number.errors }}
         </div>
     </div>
 
@@ -46,11 +53,13 @@
         <div class="form-group col-md-6">
             <label>Create password</label>
             {{ form.password }}
+            
         </div>
 
         <div class="form-group col-md-6">
             <label>Repeat password</label>
             {{ form.confirm_password }}
+            
         </div>
     </div>
 
@@ -59,7 +68,10 @@
             Register
         </button>
     </div>
+
+	{{ form.non_field_errors }}
 </form>
+
 
 		</article><!-- card-body.// -->
     </div> <!-- card .// -->
