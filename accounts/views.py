@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from .models import Account
 from .forms import RegistrationForm
+from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout    
 
 
 def register(request):
@@ -49,8 +50,24 @@ def register(request):
 
 
 def login(request):
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+
+        user = Account.objects.filter(email=email).first()
+
+        if user is not None and user.check_password(password):
+            # Perform login logic here (e.g., set session, redirect to dashboard)
+            messages.success(request, 'You have successfully logged in.')
+            return redirect('home')  # Replace 'dashboard' with your desired URL name
+        else:
+            messages.error(request, 'Invalid email or password.')
     return render(request, 'accounts/login.html')
 
 
 def logout(request):
-    pass
+
+    auth_logout(request)  
+    # Perform logout logic here (e.g., clear session, redirect to login page)
+    messages.success(request, 'You have successfully logged out.')
+    return redirect('login')  # Replace 'login' with your desired URL name
