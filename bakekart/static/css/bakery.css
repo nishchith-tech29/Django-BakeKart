@@ -1640,3 +1640,135 @@ body > * {
 body > section.section-content {
     flex-grow: 1;
 }
+
+/* BakeKart — Registration Success Message */
+
+   
+/* BakeKart registration notification */
+
+.bk-notice {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 14px 16px;
+    margin: 0 0 24px;
+    border: 1px solid #ead9c9;
+    border-radius: 9px;
+    background: #fffaf5;
+    color: #40251e;
+}
+
+.bk-notice-success {
+    border-left: 3px solid #78966a;
+}
+
+.bk-notice-check {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 28px;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: #e8eddf;
+    color: #526e45;
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.bk-notice-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.bk-notice-heading {
+    margin-bottom: 3px;
+    color: #40251e;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.4;
+}
+
+.bk-notice-content p {
+    margin: 0;
+    color: #80685a;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.bk-notice-dismiss {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 28px;
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    border: none;
+    border-radius: 6px;
+    background: transparent;
+    color: #8c7668;
+    font-family: Arial, sans-serif;
+    font-size: 22px;
+    line-height: 1;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.bk-notice-dismiss:hover {
+    background: #f0e4d8;
+    color: #40251e;
+}
+
+
+.bk-notice {
+    display: flex !important;
+    align-items: center !important;
+    gap: 13px !important;
+    padding: 14px 16px !important;
+    margin-bottom: 24px !important;
+    background: #fff8ef !important;
+    border: 1px solid #ead9c9 !important;
+    border-left: 4px solid #78966a !important;
+    border-radius: 10px !important;
+    color: #40251e !important;
+    box-shadow: 0 4px 12px rgba(64, 37, 30, 0.05) !important;
+    box-sizing: border-box !important;
+}
+
+.bk-notice-check {
+    flex-shrink: 0 !important;
+    width: 28px !important;
+    height: 28px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border-radius: 50% !important;
+    background: #e8eddf !important;
+    color: #526e45 !important;
+}
+
+.bk-notice-content {
+    flex: 1 !important;
+}
+
+.bk-notice-heading {
+    font-weight: 700 !important;
+    margin-bottom: 3px !important;
+}
+
+.bk-notice-content p {
+    margin: 0 !important;
+    color: #80685a !important;
+    font-size: 13px !important;
+}
+
+.bk-notice-dismiss {
+    border: none !important;
+    background: transparent !important;
+    color: #795b4d !important;
+    font-size: 22px !important;
+    cursor: pointer !important;
+}

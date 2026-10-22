@@ -109,3 +109,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 });
+setTimeout(function() {
+    $('#message').fadeOut('slow');
+},4000); // <-- time in milliseconds

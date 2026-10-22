@@ -14,7 +14,9 @@
 		
 
 <form action="{% url 'register' %}" method="POST">
+
     {% csrf_token %}
+	{% include 'includes/alerts.html' %}
 
     {{ form.non_field_errors }}
 

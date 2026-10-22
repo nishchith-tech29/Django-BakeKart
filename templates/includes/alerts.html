@@ -1,0 +1,24 @@
+
+{% if messages %}
+    {% for message in messages %}
+        <div class="bk-notice bk-notice-{{ message.tags }}" role="status">
+            <div class="bk-notice-check">✓</div>
+
+            <div class="bk-notice-content">
+                <div class="bk-notice-heading">
+                    {% if message.tags == 'success' %}
+                        Account created successfully
+                    {% else %}
+                        Notification
+                    {% endif %}
+                </div>
+                <p>{{ message }}</p>
+            </div>
+
+            <button type="button"
+                    class="bk-notice-dismiss"
+                    onclick="this.parentElement.remove()"
+                    aria-label="Dismiss notification">×</button>
+        </div>
+    {% endfor %}
+{% endif %}
