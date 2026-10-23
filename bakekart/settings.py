@@ -137,3 +137,8 @@ MESSAGE_TAGS = {
     messages.ERROR : "danger",
     50: "critical",
 }
+SMTP_HOST = 'smtp.gmail.com'
+SMTP_PORT = 587
+EMAIL_HOST_USER = 'spam292009@gmail.com'
+EMAIL_HOST_PASSWORD = 'nishu522007'
+EMAIL_USE_TLS = True
